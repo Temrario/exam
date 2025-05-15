@@ -7,15 +7,10 @@
 ⚙️ Як запустити файл deployment.yaml?
 Застосуйте конфігурацію:
 
-bash
-Копировать
-Редактировать
 kubectl apply -f deployment.yaml
+
 Перевірте статус оновлення:
 
-bash
-Копировать
-Редактировать
 kubectl rollout status deployment/myapp
 
 
