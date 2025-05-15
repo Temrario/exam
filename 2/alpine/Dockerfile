@@ -1,25 +1,16 @@
-# Базовий образ з Python 3.11 на Alpine Linux
 FROM python:3.11-alpine
 
-# Змінна для шляху до віртуального середовища
-ENV VENV_PATH="/opt/venv"
+RUN python -m venv /opt/venv \
+    && /opt/venv/bin/pip install --upgrade pip \
+    && adduser -D appuser
 
-# Встановлюємо необхідні пакети для створення користувача та віртуального середовища
-RUN apk add --no-cache bash shadow && \
-    python -m venv $VENV_PATH && \
-    adduser -D appuser
+ENV PATH="/opt/venv/bin:$PATH"
 
-# Додаємо файли до контейнера
 WORKDIR /app
-COPY requirements.txt main.py ./
+COPY requirements.txt .
+RUN pip install -r requirements.txt
 
-# Активуємо venv та встановлюємо залежності
-RUN source $VENV_PATH/bin/activate && \
-    pip install --upgrade pip && \
-    pip install -r requirements.txt
+COPY main.py .
 
-# Переключаємось на non-root користувача
 USER appuser
-
-# Виконуємо запуск додатку через venv
-CMD ["/opt/venv/bin/python", "main.py"]
+CMD ["python", "main.py"]
