@@ -1,0 +1,5 @@
+def say_hello(name: str) -> None:
+    print(f"Hello, {name}!")
+
+
+say_hello("World")
